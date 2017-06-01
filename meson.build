@@ -19,8 +19,15 @@ message('post install script is : ' + post_install)
 subdir('data/icons')
 subdir('po')
 
-install_data('nautilus-git/git.py', install_mode : false,
-			 install_dir : get_option('prefix') + '/share/nautilus-python/extensions/')
+
+if get_option('file_manager') == 'nautilus'
+    install_data('nautilus-git/git.py', install_mode : false,
+                install_dir : get_option('prefix') + '/share/nautilus-python/extensions/')
+else
+    install_data('nemo-git/git.py', install_mode : false,
+                install_dir : get_option('prefix') + '/share/nemo-python/extensions/')
+endif
+
 
 if get_option('post_install') == true
 	meson.add_install_script('meson_post_install.sh')
