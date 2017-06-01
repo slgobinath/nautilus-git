@@ -25,7 +25,7 @@ require_version('Nemo', '3.0')
 from gi.repository import Gtk, Nemo, GObject
 
 _ = gettext.gettext
-gettext.textdomain('nautilus-git')
+gettext.textdomain('nemo-git')
 
 
 class NemoGitLocationWidget(GObject.GObject, Nemo.LocationWidgetProvider):
