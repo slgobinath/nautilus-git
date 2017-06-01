@@ -25,7 +25,7 @@ require_version('Nemo', '3.0')
 from gi.repository import Gtk, Nemo, GObject
 
 _ = gettext.gettext
-gettext.textdomain('nemo-git')
+gettext.textdomain('nautilus-git')
 
 
 class NemoGitLocationWidget(GObject.GObject, Nemo.LocationWidgetProvider):
@@ -40,7 +40,7 @@ class NemoGitLocationWidget(GObject.GObject, Nemo.LocationWidgetProvider):
         self.window = window
         if is_git(uri):
             git = Git(uri)
-            widget = NemoLocation(git, self.window)
+            widget = NautilusLocation(git, self.window)
             return widget
         else:
             return None
@@ -65,7 +65,7 @@ class NemoGitColumnExtension(GObject.GObject, Nemo.PropertyPageProvider):
                 property_label = Gtk.Label(_('Git'))
                 property_label.show()
 
-                nautilus_property = NemoPropertyPage(git)
+                nautilus_property = NautilusPropertyPage(git)
 
                 return Nemo.PropertyPage(name="NemoPython::git",
                                              label=property_label,
