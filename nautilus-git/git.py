@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Nautilus git pluging to show useful information under any
+Nemo git pluging to show useful information under any
 git directory
 
 Author : Bilal Elmoussaoui (bil.elmoussaoui@gmail.com)
@@ -28,11 +28,11 @@ from threading import Thread
 from time import sleep
 from gi import require_version
 require_version("Gtk", "3.0")
-require_version('Nautilus', '3.0')
+require_version('Nemo', '3.0')
 require_version('GtkSource', '3.0')
-from gi.repository import Gtk, Nautilus, GObject, Gio, GtkSource, GLib
+from gi.repository import Gtk, Nemo, GObject, Gio, GtkSource, GLib
 _ = gettext.gettext
-gettext.textdomain('nautilus-git')
+gettext.textdomain('nemo-git')
 
 GIT_FILES_STATUS = {
     "added" : {
@@ -227,7 +227,7 @@ class WatchDog(Thread, GObject.GObject):
     def kill(self):
         self.alive = False
 
-class NautilusPropertyPage(Gtk.Grid):
+class NemoPropertyPage(Gtk.Grid):
     """Property page main widget class."""
     def __init__(self, git):
         Gtk.Grid.__init__(self)
@@ -276,7 +276,7 @@ class NautilusPropertyPage(Gtk.Grid):
         self.branch_value.set_text(self._git.get_branch())
         self.branch_value.show()
 
-class NautilusLocation(Gtk.InfoBar):
+class NemoLocation(Gtk.InfoBar):
     """Location bar main widget."""
     _popover = None
     _diff_button = None
@@ -418,7 +418,7 @@ class NautilusLocation(Gtk.InfoBar):
 
     def _compare_commits(self, *args):
         """Compare commits widget creation."""
-        widget = NautilusGitCompare(self._git)
+        widget = NemoGitCompare(self._git)
         self._popover.hide()
         widget.show()
 
@@ -429,8 +429,8 @@ class NautilusLocation(Gtk.InfoBar):
         self._popover.hide()
 
 
-class NautilusGitCompare(Gtk.Window):
-    """Nautilus diff window."""
+class NemoGitCompare(Gtk.Window):
+    """Nemo diff window."""
     def __init__(self, git):
         self._git = git
         Gtk.Window.__init__(self)
@@ -599,7 +599,7 @@ class BranchWidget(Gtk.Window, GObject.GObject):
     def close_window(self, *args):
         self.destroy()
 
-class NautilusGitLocationWidget(GObject.GObject, Nautilus.LocationWidgetProvider):
+class NemoGitLocationWidget(GObject.GObject, Nemo.LocationWidgetProvider):
     """Location widget extension."""
     def __init__(self):
         self.window = None
@@ -611,13 +611,13 @@ class NautilusGitLocationWidget(GObject.GObject, Nautilus.LocationWidgetProvider
         self.window = window
         if is_git(uri):
             git = Git(uri)
-            widget = NautilusLocation(git, self.window)
+            widget = NemoLocation(git, self.window)
             return widget
         else:
             return None
 
 
-class NautilusGitColumnExtension(GObject.GObject, Nautilus.PropertyPageProvider):
+class NemoGitColumnExtension(GObject.GObject, Nemo.PropertyPageProvider):
     """Property widget extension."""
     def __init__(self):
         pass
@@ -636,8 +636,8 @@ class NautilusGitColumnExtension(GObject.GObject, Nautilus.PropertyPageProvider)
                 property_label = Gtk.Label(_('Git'))
                 property_label.show()
 
-                nautilus_property = NautilusPropertyPage(git)
+                nemo_property = NemoPropertyPage(git)
 
-                return Nautilus.PropertyPage(name="NautilusPython::git",
+                return Nemo.PropertyPage(name="NemoPython::git",
                                              label=property_label,
-                                             page=nautilus_property),
+                                             page=nemo_property),
